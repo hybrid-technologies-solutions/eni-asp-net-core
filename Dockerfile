@@ -23,8 +23,8 @@ WORKDIR tests
 COPY --from=build build .
 # lancement des tests avec collecte d'informations
 WORKDIR SampleWebApp.Tests
-RUN dotnet test --logger trx --results-directory TestResults /p:CollectCoverage=true /p:CoverletOutput=TestResults/ /p:CoverletOutputFormat=cobertura 
-RUN /root/.dotnet/tools/reportgenerator -targetdir:/TestResults -reports:/tests/SampleWebApp.Tests/TestResults/coverage.cobertura.xml "-reporttypes:HTML;HTMLSummary"
+RUN dotnet test --logger trx --results-directory TestResults --collect:"XPlat Code Coverage" 
+RUN /root/.dotnet/tools/reportgenerator -targetdir:/TestResults -reports:/tests/SampleWebApp.Tests/TestResults/*/coverage.cobertura.xml "-reporttypes:HTML;HTMLSummary"
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim as web
 EXPOSE 80
