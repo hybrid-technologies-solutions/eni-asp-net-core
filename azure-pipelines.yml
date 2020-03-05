@@ -5,4 +5,16 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: docker build -t samplewebapp .
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Azure Registry'
+    command: 'login'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Docker Azure Registry'
+    repository: 'samplewebapp'
+    command: 'buildAndPush'
+    Dockerfile: 'Dockerfile'
+    tags: |
+      $(Build.BuildId)
+      lastet
